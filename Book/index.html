@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        function deleteCookies (cname){
+          document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        let login = getCookie("login");
+        console.log(login)
+        if (login != "True") {
+          window.location.href = "/";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/header.css">
+    <title>U.D.A</title>
+    <link rel="stylesheet" href="/Css/headers.css">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/Css/Book/book.css">
+</head>
+<body>
+        <div class="container" id="sign">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                <span class="fs-4">U.D.A</span>
+              </a>
+        
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/Book/" class="nav-link">Book</a></li>
+                <li class="nav-item"><a href="/Dashboard/" class="nav-link" id="selc">Dashboard</a></li>
+                <li class="nav-item"><a href="/" onclick="deleteCookies()" class="nav-link">Sign Out</a></li>
+              </ul>
+            </header>
+        </div>  
+
+        <!-- content -->
+        <div class="book-board">
+          <h2 id="Main-header">Book Someone for your U.D.A or O.D.A</h2><br>
+          <div class="row-1">
+            <div class="row-1-1">
+              <h3>Name</h3><br>
+              <h3>When</h3><br>
+            </div><br>
+            <div class="row-1-2">
+              <input type="text" id="name1">
+              <input type="date" name="Date" id="date1">
+            </div>
+          </div><br>
+          <div class="row-2">
+            <div class="row-2-1">
+              <h3>From What time </h3>
+              <h3>To What Time</h3>
+              <h3>Type</h3>
+            </div>
+            <div class="row-2-2">
+              <input type="time" name="Time" id="time1">
+              <input type="time" id="time2">
+              <select name="type" id="type">
+                <option value="UDA">U.D.A</option>
+                <option value="ODA">O.D.A</option>
+              </select>
+            </div>
+          </div><br><br>
+          <div class="row-3">
+            <input type="submit" value="submit" id="submit-btn">
+          </div>
+          
+        </div>
+        
+        <script src="/Js/Book/book.js"></script>
+        <script type="module">
+          // Import the functions you need from the SDKs you need
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+          // TODO: Add SDKs for Firebase products that you want to use
+          // https://firebase.google.com/docs/web/setup#available-libraries
+        
+          // Your web app's Firebase configuration
+          const firebaseConfig = {
+            apiKey: "AIzaSyA5spwuCwB7i_P0LJidNnr0n_kU2e20HSI",
+            authDomain: "ouda-7ab9a.firebaseapp.com",
+            databaseURL: "https://ouda-7ab9a-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "ouda-7ab9a",
+            storageBucket: "ouda-7ab9a.appspot.com",
+            messagingSenderId: "184013386048",
+            appId: "1:184013386048:web:e34b416192080a84ef0aa5"
+          };
+        
+          // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+
+          import {getDatabase, set, get, update, remove, ref, child, onValue}
+          from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
+
+          var db = getDatabase()
+
+          function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+
+
+          function writeUserData(ID, username1, name1, Date1, time11, time21, type1) {
+            const db = getDatabase();
+            set(ref(db, 'users/' + ID), {
+                username: username1,
+                name: name1,
+                date: Date1,
+                time1: time11,
+                time2: time21,
+                type: type1
+            });
+            sleep(1000).then(() => { window.location.href = "/"; })
+            
+          }
+
+          function getCookie(cname) {
+              let name = cname + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(';');
+              for(let i = 0; i <ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                  }
+              }
+              return "";
+          }
+
+          document.getElementById("submit-btn").addEventListener("click", submit);
+
+          function submit() {
+              
+              const name = document.getElementById("name1")
+              const When = document.getElementById("date1")
+              const time1 = document.getElementById("time1")
+              const time2 = document.getElementById("time2")
+              const type = document.getElementById("type")
+              console.log("Name: " + name.value);
+              console.log("When: " + When.value);
+              console.log("Time: " + time1.value);
+              console.log("To What Time: " + time2.value);
+              console.log("type: " + type.value);
+              console.log("name: " + getCookie("username"));
+              writeUserData("test", getCookie("username"), name.value, When.value, time1.value, time2.value, type.value)
+          }
+        </script>
+</body>
+</html>

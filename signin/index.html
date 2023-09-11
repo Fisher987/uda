@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        let login = getCookie("login");
+        console.log(login)
+        if (login == "True") {
+            window.location.href = "/";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/header.css">
+    <link rel="stylesheet" href="/Css/Login/form.css">
+    <link rel="stylesheet" href="/Css/Login/sign-in.css">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/Css/headers.css">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+<body>
+        <div class="container">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <span class="fs-4">U.D.A</span>
+              </a>
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/signin/" class="nav-link">Sign In</a></li>
+              </ul>
+            </header>
+          </div> 
+
+
+          <!-- content -->
+          <div class="login">
+          <form>
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="username">
+              <label for="floatingInput">Username</label>
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+              <label for="floatingPassword">Password</label>
+            </div>
+        
+            <button class="btn btn-primary w-100 py-2" type="submit" id="btn btn-primary w-100 py-2">Sign in</button>
+          </form>
+        </div>
+        
+        <script src="/Js/login/login.js"></script>
+        <script type="module">
+          import cryptoJs from 'https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/+esm'
+          const textToHash = 'i hate miss can\'t teach';
+          const hash = cryptoJs.SHA256(textToHash).toString();
+        
+          console.log('Hashed Text:', hash);
+
+          var usrsin = ["admin","henry"]
+          var pass = {admin:"f6863b410292a6576543bb2af4ead1533bcf5175225b79badc9b20d112b5f8a7",henry:"5e63771c47227984ca659cea7719b2379861e2b4e92c32938ea7f55b6b3a7af6"}
+
+          document.getElementById("btn btn-primary w-100 py-2").addEventListener("click", Start);
+
+          function Start() {;
+            const passinput = document.getElementById("floatingPassword").value;
+            const Usrsinput = document.getElementById("floatingInput").value.toLowerCase();
+            const passin = cryptoJs.SHA256(passinput).toString();
+            
+            if (usrsin.includes(Usrsinput)){
+              console.log("Valid User")
+              alert(passin);
+              if (passin == pass[Usrsinput]){
+                  alert("hello")
+                  document.cookie = "username= " + Usrsinput + "; path=/";
+                  document.cookie = "password= " + passin + "; path=/"
+                  document.cookie = "login=True; path=/";
+              }
+            }
+
+          }
+        </script>
+        
+</body>
+</html>

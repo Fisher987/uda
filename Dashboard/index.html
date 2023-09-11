@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        function deleteCookies (cname){
+          document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        let login = getCookie("login");
+        console.log(login)
+        if (login != "True") {
+          window.location.href = "/";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Css/header.css">
+    <title>U.D.A</title>
+    <link rel="stylesheet" href="/Css/headers.css">
+    <link rel="stylesheet" href="/Css/Dashboard/Dashboard.css">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+        <div class="container" id="sign">
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                <span class="fs-4">U.D.A</span>
+              </a>
+        
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/Book/" class="nav-link" id="selc">Book</a></li>
+                <li class="nav-item"><a href="/Dashboard/" class="nav-link" id="selc">Dashboard</a></li>
+                <li class="nav-item"><a href="/" onclick="deleteCookies()" class="nav-link">Sign Out</a></li>
+              </ul>
+            </header>
+        </div>  
+
+        <!-- content -->
+
+        <h2 style="text-align: center;">Dashboard</h2>
+        <h5 style="text-align: center;">Who is Booked</h5>
+        <div class="Book-Board">
+          <header>
+            <div class="main-text">
+              <div class="name" id="a"><h5>Name</h5></div>
+              <div class="whenbooked" id="b"><h5>When Booked</h5></div>
+              <div class="whenbooked" id="f"><h6>What Time</h6></div>
+              <div class="howlongbooked" id="c"><h6>To What Time</h6></div>
+              <div class="type" id="d"><h5>Type</h5></div>
+              <div class="whobooked" id="e"><h5>Who Booked</h5></div>
+              
+            </div>
+          </header>
+          <div class="sepereator"></div>
+          <div class="piece" id="p21">
+            <div class="name" id="a"><h5>Ameli</h5></div>
+            <div class="whenbooked" id="b"><h5>12.9.2023</h5></div>
+            <div class="whenbooked" id="f"><h5>20:50</h5></div>
+            <div class="howlongbooked" id="c"><h5>22:53</h5></div>
+            <div class="type" id="d"><h5>U.D.A</h5></div>
+            <div class="whobooked" id="e"><h5>Tyler</h5></div>
+          </div>
+        </div>
+</body>
+</html>
